@@ -5,7 +5,8 @@ import 'package:provider/provider.dart';
 
 void main() {
   runApp(MultiProvider(
-      providers: [ChangeNotifierProvider(create: (context) => BottomNavigationController())], child: const MyApp()));
+      providers: [ChangeNotifierProvider(create: (context) => BottomNavigationController())],
+      child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {

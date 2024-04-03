@@ -1,5 +1,8 @@
 import 'package:clean_code_demo/core/constants/colors.dart';
 import 'package:clean_code_demo/presentation/bottom_navigation_screen/controller/bottom_navigation_controller.dart';
+import 'package:clean_code_demo/presentation/customer_screen/view/customer_screen.dart';
+import 'package:clean_code_demo/presentation/home_screen/view/home_screen.dart';
+import 'package:clean_code_demo/presentation/product_screen/view/product_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -16,12 +19,18 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey,
-      body: Column(),
+      extendBody: true,
+      body: Consumer<BottomNavigationController>(builder: (context, controller, _) {
+        return IndexedStack(
+          index: controller.currentIndex,
+          children: [HomeScreen(), ProductScreen(), CustomerScreen()],
+        );
+      }),
       bottomNavigationBar: Consumer<BottomNavigationController>(builder: (context, controller, _) {
         return ClipRRect(
           borderRadius: BorderRadius.circular(10),
           child: BottomNavigationBar(
-            //backgroundColor: Colors.white,
+              //backgroundColor: Colors.white,
               currentIndex: controller.currentIndex,
               onTap: (index) {
                 controller.currentIndex = index;
