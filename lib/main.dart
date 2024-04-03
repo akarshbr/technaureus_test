@@ -1,7 +1,11 @@
+import 'package:clean_code_demo/presentation/bottom_navigation_screen/controller/bottom_navigation_controller.dart';
+import 'package:clean_code_demo/presentation/bottom_navigation_screen/view/bottom_navigation_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MultiProvider(
+      providers: [ChangeNotifierProvider(create: (context) => BottomNavigationController())], child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -10,6 +14,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp();
+    return const MaterialApp(
+      home: BottomNavigationScreen(),
+    );
   }
 }
