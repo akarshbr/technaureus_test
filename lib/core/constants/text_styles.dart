@@ -14,4 +14,12 @@ class GlobalTextStyles {
   }) {
     return TextStyle(color: color, fontWeight: fontWeight, fontSize: size);
   }
+
+  static customerScreenTS({
+    double size = 15,
+    FontWeight fontWeight = FontWeight.normal,
+    Color color = ColorTheme.onBGColor,
+  }) {
+    return TextStyle(color: color, fontWeight: fontWeight, fontSize: size);
+  }
 }

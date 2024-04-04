@@ -1,5 +1,6 @@
 import 'package:clean_code_demo/core/constants/colors.dart';
 import 'package:clean_code_demo/core/constants/text_styles.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ProductScreenCard extends StatelessWidget {
@@ -21,7 +22,7 @@ class ProductScreenCard extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image(height: size.height * .1, image: AssetImage(image!)), //TODO : change to network image
+            Expanded(child: Image(height: size.height * .1, image: AssetImage(image!))), //TODO : change to network image
             IntrinsicHeight(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
