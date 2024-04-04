@@ -26,23 +26,27 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
         );
       }),
       bottomNavigationBar: Consumer<BottomNavigationController>(builder: (context, controller, _) {
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(10),
-          child: BottomNavigationBar(
-              //backgroundColor: Colors.white,
-              currentIndex: controller.currentIndex,
-              onTap: (index) {
-                controller.currentIndex = index;
-              },
-              type: BottomNavigationBarType.fixed,
-              unselectedItemColor: Colors.grey,
-              selectedItemColor: ColorTheme.primaryColor,
-              elevation: 10,
-              items: [
-                BottomNavigationBarItem(icon: Icon(CupertinoIcons.home), label: "Home"),
-                BottomNavigationBarItem(icon: Icon(Icons.category_outlined), label: "Products"),
-                BottomNavigationBarItem(icon: Icon(CupertinoIcons.group_solid), label: "Customers")
-              ]),
+        return Material(
+          color: Colors.transparent,
+          elevation: 30,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: BottomNavigationBar(
+                //backgroundColor: Colors.white,
+                currentIndex: controller.currentIndex,
+                onTap: (index) {
+                  controller.currentIndex = index;
+                },
+                type: BottomNavigationBarType.fixed,
+                unselectedItemColor: Colors.grey,
+                selectedItemColor: ColorTheme.primaryColor,
+                elevation: 10,
+                items: [
+                  BottomNavigationBarItem(icon: Icon(CupertinoIcons.home), label: "Home"),
+                  BottomNavigationBarItem(icon: Icon(Icons.category_outlined), label: "Products"),
+                  BottomNavigationBarItem(icon: Icon(CupertinoIcons.group_solid), label: "Customers")
+                ]),
+          ),
         );
       }),
     );
