@@ -7,7 +7,7 @@ class GlobalTextStyles {
     return TextStyle(color: ColorTheme.primaryColor);
   }
 
-  static productScreenCardTS({
+  static productScreenTS({
     double size = 15,
     FontWeight fontWeight = FontWeight.normal,
     Color color = ColorTheme.onPrimaryColor,

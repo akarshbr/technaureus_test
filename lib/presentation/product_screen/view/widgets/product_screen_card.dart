@@ -32,9 +32,9 @@ class ProductScreenCard extends StatelessWidget {
                     children: [
                       Text(
                         productName!,
-                        style: GlobalTextStyles.productScreenCardTS(color: Colors.black,fontWeight: FontWeight.bold),
+                        style: GlobalTextStyles.productScreenTS(color: Colors.black,fontWeight: FontWeight.bold),
                       ),
-                      Text("\$$price/-",style: GlobalTextStyles.productScreenCardTS(color: Colors.black),)
+                      Text("\$$price/-",style: GlobalTextStyles.productScreenTS(color: Colors.black),)
                     ],
                   ),
                   VerticalDivider(
@@ -48,7 +48,7 @@ class ProductScreenCard extends StatelessWidget {
                     onPressed: () {},
                     child: Text(
                       "Add",
-                      style: GlobalTextStyles.productScreenCardTS(),
+                      style: GlobalTextStyles.productScreenTS(),
                     ),
                     style: ElevatedButton.styleFrom(
                         backgroundColor: ColorTheme.primaryColor,
