@@ -1,12 +1,14 @@
 import 'package:clean_code_demo/presentation/bottom_navigation_screen/controller/bottom_navigation_controller.dart';
 import 'package:clean_code_demo/presentation/bottom_navigation_screen/view/bottom_navigation_screen.dart';
+import 'package:clean_code_demo/presentation/customer_screen/controller/customer_screen_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  runApp(MultiProvider(
-      providers: [ChangeNotifierProvider(create: (context) => BottomNavigationController())],
-      child: const MyApp()));
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (context) => BottomNavigationController()),
+    ChangeNotifierProvider(create: (context) => CustomerScreenController())
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -17,6 +19,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       home: BottomNavigationScreen(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
