@@ -4,7 +4,7 @@ class SelectImageButton extends StatelessWidget {
   const SelectImageButton(
       {super.key,
       this.height,
-      this.width = 30,
+      this.width = 180,
       required this.onPressed,
       required this.icon,
       required this.label,

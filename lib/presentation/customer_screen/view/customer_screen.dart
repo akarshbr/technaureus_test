@@ -1,8 +1,11 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:clean_code_demo/presentation/customer_screen/controller/customer_screen_controller.dart';
 import 'package:clean_code_demo/presentation/customer_screen/view/widget/customer_screen_card.dart';
+import 'package:clean_code_demo/widget/select_image_button.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/constants/colors.dart';
@@ -24,11 +27,19 @@ class _CustomerScreenState extends State<CustomerScreen> {
   var customerStreetTwoTEController = TextEditingController();
   var customerCityTEController = TextEditingController();
   var customerPinCodeTEController = TextEditingController();
+  File? image;
 
+  Future<void> getImage(ImageSource source) async {
+    final pickedImage = await ImagePicker().pickImage(source: source);
+    if (pickedImage != null) {
+      setState(() {
+        image = File(pickedImage.path);
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-
     var size = MediaQuery.sizeOf(context);
     return Scaffold(
       appBar: AppBar(
@@ -74,121 +85,160 @@ class _CustomerScreenState extends State<CustomerScreen> {
         context: context,
         isScrollControlled: true,
         builder: (context) {
-          return SingleChildScrollView(
-            padding: EdgeInsets.fromLTRB(10, 10, 10, MediaQuery.of(context).viewInsets.bottom),
-            child: Center(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("Add Customer"),
-                      IconButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                            Provider.of<CustomerScreenController>(context, listen: false).countrySelected =
-                                null;
-                          },
-                          icon: Icon(Icons.close))
-                    ],
-                  ),
-                  Text("Customer Name"),
-                  TextFormField(controller: customerNameTEController),
-                  TextFormField(
-                    controller: customerMobileTEController,
-                    decoration: InputDecoration(hintText: "Mobile Number"),
-                  ),
-                  TextFormField(
-                    controller: customerEmailTEController,
-                    decoration: InputDecoration(hintText: "Email"),
-                  ),
-                  Text("Address"),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                              width: size.width * .45,
-                              child: TextFormField(
-                                controller: customerStreetTEController,
-                                decoration: InputDecoration(hintText: "Street"),
-                              )),
-                          SizedBox(
-                              width: size.width * .45,
-                              child: TextFormField(
-                                controller: customerCityTEController,
-                                decoration: InputDecoration(hintText: "City"),
-                              )),
-                          SizedBox(
-                            width: size.width * .45,
-                            child: Consumer<CustomerScreenController>(builder: (context, controller, _) {
-                              return DropdownButton<String>(
-                                  isExpanded: true,
-                                  items: dropdownItemsCountry,
-                                  value: controller.countrySelected,
-                                  hint: const Text("Country"),
-                                  onChanged: (String? selectedCountry) {
-                                    log("selected country -> $selectedCountry");
-                                    controller.setCountry(selectedCountry!);
-                                  });
-                            }),
-                          )
-                        ],
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                              width: size.width * .45,
-                              child: TextFormField(controller: customerStreetTwoTEController,decoration: InputDecoration(hintText: "Street two"))),
-                          SizedBox(
-                              width: size.width * .45,
-                              child: TextFormField(controller: customerPinCodeTEController,decoration: InputDecoration(hintText: "Pincode"))),
-                          SizedBox(
-                            width: size.width * .45,
-                            child: Consumer<CustomerScreenController>(builder: (context, controller, _) {
-                              return DropdownButton<String>(
-                                  isExpanded: true,
-                                  items: dropdownItemsState,
-                                  value: controller.stateSelected,
-                                  hint: const Text("State"),
-                                  onChanged: (String? selectedState) {
-                                    log("selected country -> $selectedState");
-                                    controller.setState(selectedState!);
-                                  });
-                            }),
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                  Center(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        log("customer name -> ${customerNameTEController.text}");
-                        log("customer mobile -> ${customerMobileTEController.text}");
-                        log("customer email -> ${customerEmailTEController.text}");
-                        log("customer street -> ${customerStreetTEController.text}");
-                        log("customer street two -> ${customerStreetTwoTEController.text}");
-                        log("customer city -> ${customerCityTEController.text}");
-                        log("customer pincode -> ${customerPinCodeTEController.text}");
-                        log("country -> ${Provider.of<CustomerScreenController>(context,listen: false).countrySelected}");
-                        log("state selected -> ${Provider.of<CustomerScreenController>(context,listen: false).stateSelected}");
-                      },
-                      child: Text(
-                        "Submit",
-                        style: GlobalTextStyles.customerScreenTS(color: ColorTheme.bgColor),
-                      ),
-                      style: ElevatedButton.styleFrom(backgroundColor: ColorTheme.primaryColor),
+          return StatefulBuilder(builder: (context, inSetState) {
+            return SingleChildScrollView(
+              padding: EdgeInsets.fromLTRB(size.width*.05, size.width*.05, size.width*.05, MediaQuery.of(context).viewInsets.bottom),
+              child: Center(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("Add Customer", style: GlobalTextStyles.customerScreenCardBSTS),
+                        IconButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                              Provider.of<CustomerScreenController>(context, listen: false).countrySelected =
+                                  null;
+                              setState(() {
+                                image = null;
+                              });
+                            },
+                            icon: Icon(Icons.close))
+                      ],
                     ),
-                  )
-                ],
+                    Text("Customer Name"),
+                    TextFormField(
+                      controller: customerNameTEController,
+                      decoration: InputDecoration(border: OutlineInputBorder()),
+                      style: GlobalTextStyles.customerScreenCardBSTS,
+                    ),
+                    TextFormField(
+                      controller: customerMobileTEController,
+                      decoration: InputDecoration(hintText: "Mobile Number"),
+                    ),
+                    TextFormField(
+                      controller: customerEmailTEController,
+                      decoration: InputDecoration(hintText: "Email"),
+                    ),
+                    SizedBox(height: size.width*.05),
+                    Text("Choose Profile Pic",style: GlobalTextStyles.customerScreenCardBSTS,),
+                    Row(
+                      children: [
+                        SelectImageButton(
+                          onPressed: () {
+                            getImage(ImageSource.gallery);
+                          },
+                          icon: Icons.photo,
+                          label: "Choose DP",
+                          iconColor: ColorTheme.primaryColor,
+                          labelColor: ColorTheme.primaryColor,
+                        ),
+                        if (image != null)
+                          Container(
+                            margin: EdgeInsets.only(left: size.width * .2),
+                            height: 100,
+                            width: 100,
+                            child: Image.file(
+                              image!,
+                              fit: BoxFit.cover,
+                            ),
+                          )
+                      ],
+                    ),
+                    SizedBox(height: size.width*.05),
+                    Text("Address",style: GlobalTextStyles.customerScreenCardBSTS,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                                width: size.width * .45,
+                                child: TextFormField(
+                                  controller: customerStreetTEController,
+                                  decoration: InputDecoration(hintText: "Street"),
+                                )),
+                            SizedBox(
+                                width: size.width * .45,
+                                child: TextFormField(
+                                  controller: customerCityTEController,
+                                  decoration: InputDecoration(hintText: "City"),
+                                )),
+                            SizedBox(
+                              width: size.width * .45,
+                              child: Consumer<CustomerScreenController>(builder: (context, controller, _) {
+                                return DropdownButton<String>(
+                                    isExpanded: true,
+                                    items: dropdownItemsCountry,
+                                    value: controller.countrySelected,
+                                    hint: const Text("Country"),
+                                    onChanged: (String? selectedCountry) {
+                                      log("selected country -> $selectedCountry");
+                                      controller.setCountry(selectedCountry!);
+                                    });
+                              }),
+                            )
+                          ],
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                                width: size.width * .45,
+                                child: TextFormField(
+                                    controller: customerStreetTwoTEController,
+                                    decoration: InputDecoration(hintText: "Street two"))),
+                            SizedBox(
+                                width: size.width * .45,
+                                child: TextFormField(
+                                    controller: customerPinCodeTEController,
+                                    decoration: InputDecoration(hintText: "Pincode"))),
+                            SizedBox(
+                              width: size.width * .45,
+                              child: Consumer<CustomerScreenController>(builder: (context, controller, _) {
+                                return DropdownButton<String>(
+                                    isExpanded: true,
+                                    items: dropdownItemsState,
+                                    value: controller.stateSelected,
+                                    hint: const Text("State"),
+                                    onChanged: (String? selectedState) {
+                                      log("selected country -> $selectedState");
+                                      controller.setState(selectedState!);
+                                    });
+                              }),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                    Center(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          log("customer name -> ${customerNameTEController.text}");
+                          log("customer mobile -> ${customerMobileTEController.text}");
+                          log("customer email -> ${customerEmailTEController.text}");
+                          log("customer street -> ${customerStreetTEController.text}");
+                          log("customer street two -> ${customerStreetTwoTEController.text}");
+                          log("customer city -> ${customerCityTEController.text}");
+                          log("customer pincode -> ${customerPinCodeTEController.text}");
+                          log("country -> ${Provider.of<CustomerScreenController>(context, listen: false).countrySelected}");
+                          log("state selected -> ${Provider.of<CustomerScreenController>(context, listen: false).stateSelected}");
+                        },
+                        child: Text(
+                          "Submit",
+                          style: GlobalTextStyles.customerScreenTS(color: ColorTheme.bgColor),
+                        ),
+                        style: ElevatedButton.styleFrom(backgroundColor: ColorTheme.primaryColor),
+                      ),
+                    )
+                  ],
+                ),
               ),
-            ),
-          );
+            );
+          });
         });
   }
 }

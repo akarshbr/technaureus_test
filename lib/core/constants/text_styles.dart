@@ -15,6 +15,8 @@ class GlobalTextStyles {
     return TextStyle(color: color, fontWeight: fontWeight, fontSize: size);
   }
 
+  static const TextStyle customerScreenCardBSTS=TextStyle(fontWeight: FontWeight.bold,fontSize: 20,color: ColorTheme.onBGColor);
+
   static customerScreenTS({
     double size = 15,
     FontWeight fontWeight = FontWeight.normal,
