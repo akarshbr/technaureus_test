@@ -13,12 +13,13 @@ class HomeScreenCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var controller = Provider.of<HomeScreenController>(context, listen: false);
     return Material(
       color: Colors.transparent,
       elevation: 10,
       child: Container(
         decoration: BoxDecoration(
-            color: Provider.of<HomeScreenController>(context, listen: false).selectedIndex == index
+            color: controller.selectedIndex == index
                 ? ColorTheme.primaryColor
                 : ColorTheme.bgColor,
             borderRadius: BorderRadius.circular(10)),
@@ -26,14 +27,14 @@ class HomeScreenCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(icon,
-                color: Provider.of<HomeScreenController>(context, listen: false).selectedIndex == index
+                color: controller.selectedIndex == index
                     ? ColorTheme.bgColor
                     : ColorTheme.primaryColor,
                 size: 50),
             Text(
               text,
               style: TextStyle(
-                  color: Provider.of<HomeScreenController>(context, listen: false).selectedIndex == index
+                  color: controller.selectedIndex == index
                       ? ColorTheme.bgColor
                       : ColorTheme.primaryColor,
                   fontWeight: FontWeight.bold,

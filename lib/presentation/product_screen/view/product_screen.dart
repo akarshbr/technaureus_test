@@ -1,5 +1,6 @@
 import 'package:clean_code_demo/core/constants/colors.dart';
 import 'package:clean_code_demo/core/constants/text_styles.dart';
+import 'package:clean_code_demo/presentation/product_screen/view/widgets/product_details_screen.dart';
 import 'package:clean_code_demo/presentation/product_screen/view/widgets/product_screen_card.dart';
 import 'package:clean_code_demo/widget/search_bar.dart';
 import 'package:flutter/material.dart';
@@ -22,9 +23,11 @@ class _ProductScreenState extends State<ProductScreen> {
       appBar: AppBar(
         backgroundColor: ColorTheme.bgColor,
         surfaceTintColor: ColorTheme.bgColor,
-        leading: IconButton(onPressed: () {
-          Provider.of<BottomNavigationController>(context,listen: false).currentIndex=0;
-        }, icon: Icon(Icons.arrow_back_ios)),
+        leading: IconButton(
+            onPressed: () {
+              Provider.of<BottomNavigationController>(context, listen: false).currentIndex = 0;
+            },
+            icon: Icon(Icons.arrow_back_ios)),
         centerTitle: true,
         title: Text(
           "Nest HyperMarket",
@@ -49,11 +52,23 @@ class _ProductScreenState extends State<ProductScreen> {
           ),
           itemCount: 10,
           itemBuilder: (context, index) {
-            return ProductScreenCard(
-              image: 'assets/dummy/kiwi.png',
-              productName: 'Kiwi',
-              price: 300,
-              size: size,
+            return InkWell(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ProductDetailsScreen(
+                        productName: 'Kiwi',
+                        size: size, price: 300,
+                      ),
+                    ));
+              },
+              child: ProductScreenCard(
+                image: 'assets/dummy/kiwi.png',
+                productName: 'Kiwi',
+                price: 300,
+                size: size,
+              ),
             );
           }),
     );
