@@ -27,6 +27,12 @@ class GlobalTextStyles {
     color: ColorTheme.onBGColor,
   );
 
+  static const TextStyle customerScreenDetailsTS = TextStyle(
+    fontWeight: FontWeight.bold,
+    fontSize: 22,
+    color: ColorTheme.onBGColor,
+  );
+
   static customerScreenTS({
     double size = 15,
     FontWeight fontWeight = FontWeight.normal,

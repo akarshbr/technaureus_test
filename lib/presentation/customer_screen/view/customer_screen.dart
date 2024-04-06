@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:clean_code_demo/presentation/bottom_navigation_screen/controller/bottom_navigation_controller.dart';
 import 'package:clean_code_demo/presentation/customer_screen/controller/customer_screen_controller.dart';
+import 'package:clean_code_demo/presentation/customer_screen/view/widget/customer_details_screen.dart';
 import 'package:clean_code_demo/presentation/customer_screen/view/widget/customer_screen_card.dart';
 import 'package:clean_code_demo/widget/select_image_button.dart';
 import 'package:flutter/material.dart';
@@ -46,9 +47,11 @@ class _CustomerScreenState extends State<CustomerScreen> {
       appBar: AppBar(
         backgroundColor: ColorTheme.bgColor,
         surfaceTintColor: ColorTheme.bgColor,
-        leading: IconButton(onPressed: () {
-          Provider.of<BottomNavigationController>(context,listen: false).currentIndex=0;
-        }, icon: Icon(Icons.arrow_back_ios)),
+        leading: IconButton(
+            onPressed: () {
+              Provider.of<BottomNavigationController>(context, listen: false).currentIndex = 0;
+            },
+            icon: Icon(Icons.arrow_back_ios)),
         centerTitle: true,
         title: Text(
           "Customers",
@@ -65,19 +68,41 @@ class _CustomerScreenState extends State<CustomerScreen> {
         bottom: PreferredSize(
             preferredSize: Size.fromHeight(50),
             child: SearchBarWidget(
-              size: size, type: 'Customers',
+              size: size,
+              type: 'Customers',
             )),
       ),
       body: ListView.builder(
-          itemCount: 4,//TODO
+          itemCount: 4, //TODO
           itemBuilder: (context, index) {
-            return CustomerScreenCard(
-              size: size,
-              customerImage: 'assets/dummy/brian.jpg',
-              customerName: 'Nest Hypermarket',
-              customerID: '328739',
-              customerAddress: 'West Palazhi,Calicut',
-              dueAmount: '320',
+            return InkWell(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => CustomerDetailsScreen(
+                              size: size,
+                              customerImage: 'assets/dummy/brian.jpg',
+                              customerName: 'Brian',
+                              customerID: '328739',
+                              dueAmount: '320',
+                              customerMobile: '9876543210',
+                              customerEmail: 'brian@gmail.com',
+                              street: 'NGO qrt',
+                              street2: 'Kakkanad',
+                              city: 'Kochi',
+                              state: 'Kerala',
+                              pinCode: '654321',
+                            )));
+              },
+              child: CustomerScreenCard(
+                size: size,
+                customerImage: 'assets/dummy/brian.jpg',
+                customerName: 'Nest Hypermarket',
+                customerID: '328739',
+                customerAddress: 'West Palazhi,Calicut',
+                dueAmount: '320',
+              ),
             );
           }),
     );
@@ -90,7 +115,8 @@ class _CustomerScreenState extends State<CustomerScreen> {
         builder: (context) {
           return StatefulBuilder(builder: (context, inSetState) {
             return SingleChildScrollView(
-              padding: EdgeInsets.fromLTRB(size.width*.05, size.width*.05, size.width*.05, MediaQuery.of(context).viewInsets.bottom),
+              padding: EdgeInsets.fromLTRB(size.width * .05, size.width * .05, size.width * .05,
+                  MediaQuery.of(context).viewInsets.bottom),
               child: Center(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -125,8 +151,11 @@ class _CustomerScreenState extends State<CustomerScreen> {
                       controller: customerEmailTEController,
                       decoration: InputDecoration(hintText: "Email"),
                     ),
-                    SizedBox(height: size.width*.05),
-                    Text("Choose Profile Pic",style: GlobalTextStyles.customerScreenCardBSTS,),
+                    SizedBox(height: size.width * .05),
+                    Text(
+                      "Choose Profile Pic",
+                      style: GlobalTextStyles.customerScreenCardBSTS,
+                    ),
                     Row(
                       children: [
                         SelectImageButton(
@@ -150,8 +179,11 @@ class _CustomerScreenState extends State<CustomerScreen> {
                           )
                       ],
                     ),
-                    SizedBox(height: size.width*.05),
-                    Text("Address",style: GlobalTextStyles.customerScreenCardBSTS,),
+                    SizedBox(height: size.width * .05),
+                    Text(
+                      "Address",
+                      style: GlobalTextStyles.customerScreenCardBSTS,
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
