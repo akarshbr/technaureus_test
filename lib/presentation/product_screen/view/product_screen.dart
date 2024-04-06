@@ -1,5 +1,6 @@
 import 'package:clean_code_demo/core/constants/colors.dart';
 import 'package:clean_code_demo/core/constants/text_styles.dart';
+import 'package:clean_code_demo/presentation/product_screen/controller/product_controller.dart';
 import 'package:clean_code_demo/presentation/product_screen/view/widgets/product_details_screen.dart';
 import 'package:clean_code_demo/presentation/product_screen/view/widgets/product_screen_card.dart';
 import 'package:clean_code_demo/widget/search_bar.dart';
@@ -16,6 +17,16 @@ class ProductScreen extends StatefulWidget {
 }
 
 class _ProductScreenState extends State<ProductScreen> {
+  fetchData() {
+    Provider.of<ProductController>(context, listen: false).fetchProduct(context);
+  }
+
+  @override
+  void initState() {
+    fetchData();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.sizeOf(context);
@@ -42,35 +53,42 @@ class _ProductScreenState extends State<ProductScreen> {
               type: '',
             )),
       ),
-      body: GridView.builder(
-          padding: EdgeInsets.only(top: size.height * .01, left: size.width * .03, right: size.width * .03),
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 10,
-            mainAxisSpacing: 10,
-            childAspectRatio: 1.2 / 1,
-          ),
-          itemCount: 10,
-          itemBuilder: (context, index) {
-            return InkWell(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ProductDetailsScreen(
-                        productName: 'Kiwi',
-                        size: size, price: 300,
-                      ),
-                    ));
-              },
-              child: ProductScreenCard(
-                image: 'assets/dummy/kiwi.png',
-                productName: 'Kiwi',
-                price: 300,
-                size: size,
-              ),
-            );
-          }),
+      body: Consumer<ProductController>(builder: (context, controller, _) {
+        return controller.isLoading
+            ? Center(child: CircularProgressIndicator())
+            : GridView.builder(
+                padding:
+                    EdgeInsets.only(top: size.height * .01, left: size.width * .03, right: size.width * .03),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
+                  childAspectRatio: 1.2 / 1,
+                ),
+                itemCount: controller.productModel.data?.length,
+                itemBuilder: (context, index) {
+                  return InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ProductDetailsScreen(
+                              productName: controller.productModel.data![index].name,
+                              size: size,
+                              price: controller.productModel.data![index].price!.toDouble(),
+                              productImage: controller.productModel.data?[index].image,
+                            ),
+                          ));
+                    },
+                    child: ProductScreenCard(
+                      image: controller.productModel.data?[index].image,
+                      productName: controller.productModel.data?[index].name,
+                      price: controller.productModel.data![index].price?.toDouble(),
+                      size: size,
+                    ),
+                  );
+                });
+      }),
     );
   }
 }

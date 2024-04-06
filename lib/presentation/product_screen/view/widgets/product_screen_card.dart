@@ -1,6 +1,6 @@
+import 'package:clean_code_demo/config/app_config.dart';
 import 'package:clean_code_demo/core/constants/colors.dart';
 import 'package:clean_code_demo/core/constants/text_styles.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ProductScreenCard extends StatelessWidget {
@@ -14,6 +14,7 @@ class ProductScreenCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var imageUrl = AppConfig.mediaUrl + image!;
     return Material(
       color: Colors.transparent,
       elevation: 10,
@@ -22,7 +23,8 @@ class ProductScreenCard extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Expanded(child: Image(height: size.height * .1, image: AssetImage(image!))), //TODO : change to network image
+            Expanded(child: Image(height: size.height * .1, image: NetworkImage(imageUrl))),
+            //TODO : change to network image
             IntrinsicHeight(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -33,9 +35,13 @@ class ProductScreenCard extends StatelessWidget {
                     children: [
                       Text(
                         productName!,
-                        style: GlobalTextStyles.productScreenTS(color: Colors.black,fontWeight: FontWeight.bold),
+                        style: GlobalTextStyles.productScreenTS(
+                            color: Colors.black, fontWeight: FontWeight.bold),
                       ),
-                      Text("\$$price/-",style: GlobalTextStyles.productScreenTS(color: Colors.black),)
+                      Text(
+                        "\$$price/-",
+                        style: GlobalTextStyles.productScreenTS(color: Colors.black),
+                      )
                     ],
                   ),
                   VerticalDivider(
