@@ -1,17 +1,20 @@
 import 'package:clean_code_demo/core/constants/colors.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../config/app_config.dart';
 import '../../../../core/constants/text_styles.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
-  const ProductDetailsScreen({super.key, required this.productName, required this.size, required this.price});
+  const ProductDetailsScreen({super.key, required this.productName, required this.size, required this.price, required this.productImage});
 
-  final String productName;
+  final String? productName;
+  final String? productImage;
   final Size size;
-  final double price;
+  final double? price;
 
   @override
   Widget build(BuildContext context) {
+    var imageUrl = AppConfig.mediaUrl + productImage!;
     return Scaffold(
       backgroundColor: ColorTheme.primaryColor,
       body: Center(
@@ -43,7 +46,7 @@ class ProductDetailsScreen extends StatelessWidget {
                       width: size.width * .7,
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: AssetImage("assets/dummy/kiwi.png"),
+                          image: NetworkImage(imageUrl),
                           fit: BoxFit.contain,
                         ),
                       ),
@@ -52,7 +55,7 @@ class ProductDetailsScreen extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(left: 20),
                     child: Text(
-                      productName,
+                      productName!,
                       style: GlobalTextStyles.productScreenTS(
                           color: ColorTheme.onBGColor, fontWeight: FontWeight.bold, size: 30),
                     ),

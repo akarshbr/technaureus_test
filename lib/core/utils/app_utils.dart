@@ -19,6 +19,6 @@ class AppUtils {
           right: 20,
           left: 20,
         ),
-        content: Text(message!)));
+        content: Text(message!, style: TextStyle(color: ColorTheme.bgColor))));
   }
 }
