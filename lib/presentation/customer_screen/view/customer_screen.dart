@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:clean_code_demo/presentation/bottom_navigation_screen/controller/bottom_navigation_controller.dart';
 import 'package:clean_code_demo/presentation/customer_screen/controller/customer_screen_controller.dart';
 import 'package:clean_code_demo/presentation/customer_screen/view/widget/customer_screen_card.dart';
 import 'package:clean_code_demo/widget/select_image_button.dart';
@@ -45,7 +46,9 @@ class _CustomerScreenState extends State<CustomerScreen> {
       appBar: AppBar(
         backgroundColor: ColorTheme.bgColor,
         surfaceTintColor: ColorTheme.bgColor,
-        leading: IconButton(onPressed: () {}, icon: Icon(Icons.arrow_back_ios)),
+        leading: IconButton(onPressed: () {
+          Provider.of<BottomNavigationController>(context,listen: false).currentIndex=0;
+        }, icon: Icon(Icons.arrow_back_ios)),
         centerTitle: true,
         title: Text(
           "Customers",
@@ -62,11 +65,11 @@ class _CustomerScreenState extends State<CustomerScreen> {
         bottom: PreferredSize(
             preferredSize: Size.fromHeight(50),
             child: SearchBarWidget(
-              size: size,
+              size: size, type: 'Customers',
             )),
       ),
       body: ListView.builder(
-          itemCount: 4,
+          itemCount: 4,//TODO
           itemBuilder: (context, index) {
             return CustomerScreenCard(
               size: size,
