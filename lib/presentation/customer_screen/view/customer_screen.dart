@@ -5,6 +5,7 @@ import 'package:clean_code_demo/presentation/bottom_navigation_screen/controller
 import 'package:clean_code_demo/presentation/customer_screen/controller/customer_screen_controller.dart';
 import 'package:clean_code_demo/presentation/customer_screen/view/widget/customer_details_screen.dart';
 import 'package:clean_code_demo/presentation/customer_screen/view/widget/customer_screen_card.dart';
+import 'package:clean_code_demo/widget/search_bar_customer.dart';
 import 'package:clean_code_demo/widget/select_image_button.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -12,7 +13,6 @@ import 'package:provider/provider.dart';
 
 import '../../../core/constants/colors.dart';
 import '../../../core/constants/text_styles.dart';
-import '../../../widget/search_bar.dart';
 
 class CustomerScreen extends StatefulWidget {
   const CustomerScreen({super.key});
@@ -77,7 +77,7 @@ class _CustomerScreenState extends State<CustomerScreen> {
         ],
         bottom: PreferredSize(
             preferredSize: Size.fromHeight(50),
-            child: SearchBarWidget(
+            child: SearchBarCustomerWidget(
               size: size,
               type: 'Customers',
             )),

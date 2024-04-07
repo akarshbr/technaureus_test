@@ -1,9 +1,8 @@
 import 'package:clean_code_demo/core/constants/colors.dart';
 import 'package:clean_code_demo/core/constants/text_styles.dart';
 import 'package:clean_code_demo/presentation/product_screen/controller/product_controller.dart';
-import 'package:clean_code_demo/presentation/product_screen/view/widgets/product_details_screen.dart';
 import 'package:clean_code_demo/presentation/product_screen/view/widgets/product_screen_card.dart';
-import 'package:clean_code_demo/widget/search_bar.dart';
+import 'package:clean_code_demo/widget/search_bar_product.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -52,7 +51,7 @@ class _ProductScreenState extends State<ProductScreen> {
             preferredSize: Size.fromHeight(50),
             child: SearchBarWidget(
               size: size,
-              type: '',
+              type: 'Product',
             )),
       ),
       body: Consumer<ProductController>(builder: (context, controller, _) {

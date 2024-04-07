@@ -12,4 +12,14 @@ class CustomerService {
       log("$e");
     }
   }
+  static Future<dynamic> searchCustomers(String searchText) async {
+    log("CustomerService -> searchCustomers()");
+    try {
+      var decodedData = await ApiHelper.getData(endPoint: "customers/?search_query=$searchText");
+      return decodedData;
+    } catch (e) {
+      log("$e");
+    }
+  }
+
 }

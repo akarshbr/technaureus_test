@@ -42,8 +42,8 @@ class Datum {
   String? streetTwo;
   String? city;
   int? pincode;
-  Country? country;
-  State? state;
+  String? country;
+  String? state;
   DateTime? createdDate;
   String? createdTime;
   DateTime? modifiedDate;
@@ -79,8 +79,8 @@ class Datum {
     streetTwo: json["street_two"],
     city: json["city"],
     pincode: json["pincode"],
-    country: countryValues.map[json["country"]]!,
-    state: stateValues.map[json["state"]]!,
+    country: json["country"],
+    state: json["state"],
     createdDate: json["created_date"] == null ? null : DateTime.parse(json["created_date"]),
     createdTime: json["created_time"],
     modifiedDate: json["modified_date"] == null ? null : DateTime.parse(json["modified_date"]),
@@ -98,60 +98,12 @@ class Datum {
     "street_two": streetTwo,
     "city": city,
     "pincode": pincode,
-    "country": countryValues.reverse[country],
-    "state": stateValues.reverse[state],
+    "country": country,
+    "state": state,
     "created_date": "${createdDate!.year.toString().padLeft(4, '0')}-${createdDate!.month.toString().padLeft(2, '0')}-${createdDate!.day.toString().padLeft(2, '0')}",
     "created_time": createdTime,
     "modified_date": "${modifiedDate!.year.toString().padLeft(4, '0')}-${modifiedDate!.month.toString().padLeft(2, '0')}-${modifiedDate!.day.toString().padLeft(2, '0')}",
     "modified_time": modifiedTime,
     "flag": flag,
   };
-}
-
-enum Country {
-  ARGENTINA,
-  COUNTRY_INDIA,
-  HSHSHS,
-  INDIA,
-  INDIAN,
-  INIDA
-}
-
-final countryValues = EnumValues({
-  "argentina": Country.ARGENTINA,
-  "india": Country.COUNTRY_INDIA,
-  "hshshs": Country.HSHSHS,
-  "India": Country.INDIA,
-  "indian": Country.INDIAN,
-  "Inida": Country.INIDA
-});
-
-enum State {
-  GOA,
-  HSHDHDH,
-  KERALA,
-  ROSARIO,
-  STATE_2,
-  STATE_KERALA
-}
-
-final stateValues = EnumValues({
-  "Goa": State.GOA,
-  "hshdhdh": State.HSHDHDH,
-  "Kerala": State.KERALA,
-  "rosario": State.ROSARIO,
-  "State 2": State.STATE_2,
-  "kerala": State.STATE_KERALA
-});
-
-class EnumValues<T> {
-  Map<String, T> map;
-  late Map<T, String> reverseMap;
-
-  EnumValues(this.map);
-
-  Map<T, String> get reverse {
-    reverseMap = map.map((k, v) => MapEntry(v, k));
-    return reverseMap;
-  }
 }

@@ -40,7 +40,7 @@ class _ProductSearchResultScreenState extends State<ProductSearchResultScreen> {
         ),
       ),
       body: Consumer<ProductController>(builder: (context, controller, _) {
-        return controller.isLoading
+        return controller.isLoadingSearchProduct
             ? Center(child: CircularProgressIndicator())
             : GridView.builder(
                 padding: EdgeInsets.only(
