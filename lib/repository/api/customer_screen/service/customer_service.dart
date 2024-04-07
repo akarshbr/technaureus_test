@@ -22,4 +22,14 @@ class CustomerService {
     }
   }
 
+  static Future<dynamic> fetchCustomer(int id) async {
+    log("CustomerService -> searchCustomers()");
+    try {
+      var decodedData = await ApiHelper.getData(endPoint: "customers/?id=$id");
+      return decodedData;
+    } catch (e) {
+      log("$e");
+    }
+  }
+
 }

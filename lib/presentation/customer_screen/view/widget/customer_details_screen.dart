@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:clean_code_demo/core/constants/text_styles.dart';
 import 'package:flutter/material.dart';
 
@@ -11,8 +13,13 @@ class CustomerDetailsScreen extends StatelessWidget {
       required this.customerImage,
       required this.customerName,
       required this.customerID,
-      required this.dueAmount,
-      required this.customerMobile, required this.customerEmail, required this.street, required this.street2, required this.city, required this.state, required this.pinCode});
+      required this.customerMobile,
+      required this.customerEmail,
+      required this.street,
+      required this.street2,
+      required this.city,
+      required this.state,
+      required this.pinCode});
 
   final Size size;
   final String? customerImage;
@@ -25,7 +32,6 @@ class CustomerDetailsScreen extends StatelessWidget {
   final String? state;
   final String? pinCode;
   final String? customerID;
-  final String? dueAmount;
 
   @override
   Widget build(BuildContext context) {
@@ -115,7 +121,6 @@ class CustomerDetailsScreen extends StatelessWidget {
                             style: GlobalTextStyles.customerScreenDetailsTS,
                           ),
                         ),
-
                       ],
                     ),
                     Column(
@@ -139,8 +144,9 @@ class CustomerDetailsScreen extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.only(left: 20),
                           child: Text(
-                            ": $dueAmount",
-                            style: GlobalTextStyles.customerScreenTS(size: 22,color: Colors.red,fontWeight: FontWeight.bold),
+                            " \$${300 + Random().nextInt(1000-300)}",
+                            style: GlobalTextStyles.customerScreenTS(
+                                size: 22, color: Colors.red, fontWeight: FontWeight.bold),
                           ),
                         ),
                         Padding(

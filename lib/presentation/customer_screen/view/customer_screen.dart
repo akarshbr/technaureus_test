@@ -86,35 +86,19 @@ class _CustomerScreenState extends State<CustomerScreen> {
         return controller.isLoading
             ? Center(child: CircularProgressIndicator())
             : ListView.builder(
-                itemCount: controller.customerModel.data?.length, //TODO
+                itemCount: controller.customersModel.data?.length, //TODO
                 itemBuilder: (context, index) {
                   return InkWell(
                     onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => CustomerDetailsScreen(
-                                    size: size,
-                                    customerImage: 'assets/dummy/brian.jpg',
-                                    customerName: 'Brian',
-                                    customerID: '328739',
-                                    dueAmount: '320',
-                                    customerMobile: '9876543210',
-                                    customerEmail: 'brian@gmail.com',
-                                    street: 'NGO qrt',
-                                    street2: 'Kakkanad',
-                                    city: 'Kochi',
-                                    state: 'Kerala',
-                                    pinCode: '654321',
-                                  )));
+                      Provider.of<CustomerScreenController>(context,listen: false).fetchCustomer(context, controller.customersModel.data?[index].id, size);
                     },
                     child: CustomerScreenCard(
                       size: size,
-                      customerImage: controller.customerModel.data?[index].profilePic??"",
-                      customerName: controller.customerModel.data?[index].name??"",
-                      customerID: controller.customerModel.data?[index].id.toString()??"",
+                      customerImage: controller.customersModel.data?[index].profilePic??"",
+                      customerName: controller.customersModel.data?[index].name??"",
+                      customerID: controller.customersModel.data?[index].id.toString()??"",
                       customerAddress:
-                          '${controller.customerModel.data?[index].street??""}, ${controller.customerModel.data?[index].streetTwo??""}, \n${controller.customerModel.data?[index].state??""}',
+                          '${controller.customersModel.data?[index].street??""}, ${controller.customersModel.data?[index].streetTwo??""}, \n${controller.customersModel.data?[index].state??""}',
 
                     ),
                   );

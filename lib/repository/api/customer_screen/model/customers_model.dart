@@ -1,38 +1,38 @@
 // To parse this JSON data, do
 //
-//     final customerModel = customerModelFromJson(jsonString);
+//     final customersModel = customersModelFromJson(jsonString);
 
 import 'dart:convert';
 
-CustomerModel customerModelFromJson(String str) => CustomerModel.fromJson(json.decode(str));
+CustomersModel customersModelFromJson(String str) => CustomersModel.fromJson(json.decode(str));
 
-String customerModelToJson(CustomerModel data) => json.encode(data.toJson());
+String customersModelToJson(CustomersModel data) => json.encode(data.toJson());
 
-class CustomerModel {
+class CustomersModel {
   int? errorCode;
-  Data? data;
+  List<Datum>? data;
   String? message;
 
-  CustomerModel({
+  CustomersModel({
     this.errorCode,
     this.data,
     this.message,
   });
 
-  factory CustomerModel.fromJson(Map<String, dynamic> json) => CustomerModel(
+  factory CustomersModel.fromJson(Map<String, dynamic> json) => CustomersModel(
     errorCode: json["error_code"],
-    data: json["data"] == null ? null : Data.fromJson(json["data"]),
+    data: json["data"] == null ? [] : List<Datum>.from(json["data"]!.map((x) => Datum.fromJson(x))),
     message: json["message"],
   );
 
   Map<String, dynamic> toJson() => {
     "error_code": errorCode,
-    "data": data?.toJson(),
+    "data": data == null ? [] : List<dynamic>.from(data!.map((x) => x.toJson())),
     "message": message,
   };
 }
 
-class Data {
+class Datum {
   int? id;
   String? name;
   String? profilePic;
@@ -50,7 +50,7 @@ class Data {
   String? modifiedTime;
   bool? flag;
 
-  Data({
+  Datum({
     this.id,
     this.name,
     this.profilePic,
@@ -69,7 +69,7 @@ class Data {
     this.flag,
   });
 
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
+  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
     id: json["id"],
     name: json["name"],
     profilePic: json["profile_pic"],

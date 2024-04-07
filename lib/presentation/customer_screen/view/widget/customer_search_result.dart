@@ -1,6 +1,6 @@
 import 'package:clean_code_demo/presentation/customer_screen/controller/customer_screen_controller.dart';
 import 'package:clean_code_demo/presentation/customer_screen/view/widget/customer_screen_card.dart';
-import 'package:clean_code_demo/repository/api/customer_screen/model/customer_model.dart';
+import 'package:clean_code_demo/repository/api/customer_screen/model/customers_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -12,12 +12,12 @@ class CustomerSearchResultScreen extends StatefulWidget {
     super.key,
     required this.size,
     required this.searchText,
-    required this.customerModel,
+    required this.customersModel,
   });
 
   final Size size;
   final String searchText;
-  final CustomerModel customerModel;
+  final CustomersModel customersModel;
 
   @override
   State<CustomerSearchResultScreen> createState() => _CustomerSearchResultScreenState();
@@ -46,15 +46,15 @@ class _CustomerSearchResultScreenState extends State<CustomerSearchResultScreen>
         return controller.isLoadingSearch
             ? Center(child: CircularProgressIndicator())
             : ListView.builder(
-                itemCount: widget.customerModel.data?.length, //TODO
+                itemCount: widget.customersModel.data?.length, //TODO
                 itemBuilder: (context, index) {
                   return CustomerScreenCard(
                     size: widget.size,
-                    customerImage: widget.customerModel.data?[index].profilePic??"",
-                    customerName: widget.customerModel.data?[index].name,
-                    customerID: widget.customerModel.data?[index].id.toString(),
+                    customerImage: widget.customersModel.data?[index].profilePic??"",
+                    customerName: widget.customersModel.data?[index].name,
+                    customerID: widget.customersModel.data?[index].id.toString(),
                     customerAddress:
-                        "${widget.customerModel.data?[index].street}, ${widget.customerModel.data?[index].streetTwo}\n${widget.customerModel.data?[index].state}",
+                        "${widget.customersModel.data?[index].street}, ${widget.customersModel.data?[index].streetTwo}\n${widget.customersModel.data?[index].state}",
                   );
                 },
               );
