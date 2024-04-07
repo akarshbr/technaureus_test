@@ -38,6 +38,7 @@ class _CustomerScreenState extends State<CustomerScreen> {
   var customerStreetTwoTEController = TextEditingController();
   var customerCityTEController = TextEditingController();
   var customerPinCodeTEController = TextEditingController();
+  bool isEditing = false;
   File? image;
 
   Future<void> getImage(ImageSource source) async {
@@ -95,6 +96,27 @@ class _CustomerScreenState extends State<CustomerScreen> {
                         Provider.of<CustomerScreenController>(context, listen: false)
                             .fetchCustomer(context, controller.customersModel.data?[index].id, size);
                       },
+                      onLongPress: () {
+                        customerNameTEController.text =
+                            controller.customersModel.data![index].name.toString();
+                        customerMobileTEController.text =
+                            controller.customersModel.data![index].mobileNumber.toString();
+                        customerEmailTEController.text =
+                            controller.customersModel.data![index].email.toString();
+                        customerStreetTEController.text =
+                            controller.customersModel.data![index].street.toString();
+                        customerStreetTwoTEController.text =
+                            controller.customersModel.data![index].streetTwo.toString();
+                        customerCityTEController.text =
+                            controller.customersModel.data![index].city.toString();
+                        customerPinCodeTEController.text =
+                            controller.customersModel.data![index].pincode.toString();
+                        Provider.of<CustomerScreenController>(context, listen: false).countrySelected = null;
+                        Provider.of<CustomerScreenController>(context, listen: false).stateSelected = null;
+                        isEditing = true;
+                        addEditCustomerBottomSheet(context, size,
+                            id: controller.customersModel.data?[index].id);
+                      },
                       child: CustomerScreenCard(
                         size: size,
                         customerImage: controller.customersModel.data?[index].profilePic ?? "",
@@ -110,8 +132,9 @@ class _CustomerScreenState extends State<CustomerScreen> {
     );
   }
 
-  Future<dynamic> addEditCustomerBottomSheet(BuildContext context, Size size) {
+  Future<dynamic> addEditCustomerBottomSheet(BuildContext context, Size size, {int? id}) {
     return showModalBottomSheet(
+        isDismissible: false,
         context: context,
         isScrollControlled: true,
         builder: (context) {
@@ -144,6 +167,7 @@ class _CustomerScreenState extends State<CustomerScreen> {
                                   null;
                               Provider.of<CustomerScreenController>(context, listen: false).stateSelected =
                                   null;
+                              isEditing = false;
                             },
                             icon: Icon(Icons.close))
                       ],
@@ -272,30 +296,52 @@ class _CustomerScreenState extends State<CustomerScreen> {
                           log("customer pincode -> ${customerPinCodeTEController.text}");
                           log("country -> ${Provider.of<CustomerScreenController>(context, listen: false).countrySelected}");
                           log("state selected -> ${Provider.of<CustomerScreenController>(context, listen: false).stateSelected}");
-                          Provider.of<CustomerScreenController>(context, listen: false).onCreateCustomer(
-                              context,
-                              image,
-                              customerNameTEController.text.trim(),
-                              customerMobileTEController.text.trim(),
-                              customerEmailTEController.text.trim(),
-                              customerStreetTEController.text.trim(),
-                              customerStreetTwoTEController.text.trim(),
-                              customerCityTEController.text.trim(),
-                              customerPinCodeTEController.text.trim(),
-                              Provider.of<CustomerScreenController>(context, listen: false)
-                                  .countrySelected
-                                  .toString(),
-                              Provider.of<CustomerScreenController>(context, listen: false)
-                                  .stateSelected
-                                  .toString());
+                          if (isEditing == true) {
+                            Provider.of<CustomerScreenController>(context, listen: false).onEditCustomer(
+                                context,
+                                image,
+                                customerNameTEController.text.trim(),
+                                customerMobileTEController.text.trim(),
+                                customerEmailTEController.text.trim(),
+                                customerStreetTEController.text.trim(),
+                                customerStreetTwoTEController.text.trim(),
+                                customerCityTEController.text.trim(),
+                                customerPinCodeTEController.text.trim(),
+                                Provider.of<CustomerScreenController>(context, listen: false)
+                                    .countrySelected
+                                    .toString(),
+                                Provider.of<CustomerScreenController>(context, listen: false)
+                                    .stateSelected
+                                    .toString(),
+                                id!);
+                            isEditing = false;
+                          } else {
+                            Provider.of<CustomerScreenController>(context, listen: false).onCreateCustomer(
+                                context,
+                                image,
+                                customerNameTEController.text.trim(),
+                                customerMobileTEController.text.trim(),
+                                customerEmailTEController.text.trim(),
+                                customerStreetTEController.text.trim(),
+                                customerStreetTwoTEController.text.trim(),
+                                customerCityTEController.text.trim(),
+                                customerPinCodeTEController.text.trim(),
+                                Provider.of<CustomerScreenController>(context, listen: false)
+                                    .countrySelected
+                                    .toString(),
+                                Provider.of<CustomerScreenController>(context, listen: false)
+                                    .stateSelected
+                                    .toString());
+                          }
                         },
                         child: Text(
-                          "Submit",
+                          isEditing ? "Edit" : "Create",
                           style: GlobalTextStyles.customerScreenTS(color: ColorTheme.bgColor),
                         ),
                         style: ElevatedButton.styleFrom(backgroundColor: ColorTheme.primaryColor),
                       ),
-                    )
+                    ),
+                    SizedBox(height: 10)
                   ],
                 ),
               ),
