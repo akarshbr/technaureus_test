@@ -82,7 +82,8 @@ class _CustomerScreenState extends State<CustomerScreen> {
             )),
       ),
       body: RefreshIndicator(
-        onRefresh: () => Provider.of<CustomerScreenController>(context, listen: false).fetchCustomers(context),
+        onRefresh: () =>
+            Provider.of<CustomerScreenController>(context, listen: false).fetchCustomers(context),
         child: Consumer<CustomerScreenController>(builder: (context, controller, _) {
           return controller.isLoading
               ? Center(child: CircularProgressIndicator())
@@ -129,11 +130,20 @@ class _CustomerScreenState extends State<CustomerScreen> {
                         IconButton(
                             onPressed: () {
                               Navigator.pop(context);
-                              Provider.of<CustomerScreenController>(context, listen: false).countrySelected =
-                                  null;
+                              customerNameTEController.clear();
+                              customerMobileTEController.clear();
+                              customerEmailTEController.clear();
                               setState(() {
                                 image = null;
                               });
+                              customerStreetTEController.clear();
+                              customerStreetTwoTEController.clear();
+                              customerCityTEController.clear();
+                              customerPinCodeTEController.clear();
+                              Provider.of<CustomerScreenController>(context, listen: false).countrySelected =
+                                  null;
+                              Provider.of<CustomerScreenController>(context, listen: false).stateSelected =
+                                  null;
                             },
                             icon: Icon(Icons.close))
                       ],
