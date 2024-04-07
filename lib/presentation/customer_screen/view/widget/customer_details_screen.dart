@@ -1,6 +1,7 @@
 import 'package:clean_code_demo/core/constants/text_styles.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../config/app_config.dart';
 import '../../../../core/constants/colors.dart';
 
 class CustomerDetailsScreen extends StatelessWidget {
@@ -14,20 +15,21 @@ class CustomerDetailsScreen extends StatelessWidget {
       required this.customerMobile, required this.customerEmail, required this.street, required this.street2, required this.city, required this.state, required this.pinCode});
 
   final Size size;
-  final String customerImage;
-  final String customerName;
-  final String customerMobile;
-  final String customerEmail;
-  final String street;
-  final String street2;
-  final String city;
-  final String state;
-  final String pinCode;
-  final String customerID;
-  final String dueAmount;
+  final String? customerImage;
+  final String? customerName;
+  final String? customerMobile;
+  final String? customerEmail;
+  final String? street;
+  final String? street2;
+  final String? city;
+  final String? state;
+  final String? pinCode;
+  final String? customerID;
+  final String? dueAmount;
 
   @override
   Widget build(BuildContext context) {
+    var imageUrl = AppConfig.mediaUrl + customerImage!;
     return Scaffold(
       backgroundColor: ColorTheme.primaryColor,
       body: Center(
@@ -59,7 +61,7 @@ class CustomerDetailsScreen extends StatelessWidget {
                     width: size.width * .3,
                     margin: EdgeInsets.only(bottom: 20),
                     decoration: BoxDecoration(
-                        image: DecorationImage(image: AssetImage(customerImage), fit: BoxFit.cover),
+                        image: DecorationImage(image: NetworkImage(imageUrl), fit: BoxFit.cover),
                         //TODO change to network image
                         borderRadius: BorderRadius.circular(10)),
                   ),

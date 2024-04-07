@@ -54,7 +54,6 @@ class _CustomerSearchResultScreenState extends State<CustomerSearchResultScreen>
             customerName: widget.customerName,
             customerID: widget.customerID,
             customerAddress: widget.customerAddress,
-            dueAmount: widget.dueAmount,
           );
         },
       ),

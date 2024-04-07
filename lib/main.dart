@@ -11,7 +11,8 @@ void main() {
     ChangeNotifierProvider(create: (context) => BottomNavigationController()),
     ChangeNotifierProvider(create: (context) => CustomerScreenController()),
     ChangeNotifierProvider(create: (context) => HomeScreenController()),
-    ChangeNotifierProvider(create: (context) => ProductController())
+    ChangeNotifierProvider(create: (context) => ProductController()),
+    ChangeNotifierProvider(create: (context) => CustomerScreenController())
   ], child: const MyApp()));
 }
 

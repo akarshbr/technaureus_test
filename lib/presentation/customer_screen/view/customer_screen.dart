@@ -22,6 +22,16 @@ class CustomerScreen extends StatefulWidget {
 }
 
 class _CustomerScreenState extends State<CustomerScreen> {
+  fetchData() {
+    Provider.of<CustomerScreenController>(context, listen: false).fetchCustomers(context);
+  }
+
+  @override
+  void initState() {
+    fetchData();
+    super.initState();
+  }
+
   var customerNameTEController = TextEditingController();
   var customerMobileTEController = TextEditingController();
   var customerEmailTEController = TextEditingController();
@@ -72,39 +82,44 @@ class _CustomerScreenState extends State<CustomerScreen> {
               type: 'Customers',
             )),
       ),
-      body: ListView.builder(
-          itemCount: 4, //TODO
-          itemBuilder: (context, index) {
-            return InkWell(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => CustomerDetailsScreen(
-                              size: size,
-                              customerImage: 'assets/dummy/brian.jpg',
-                              customerName: 'Brian',
-                              customerID: '328739',
-                              dueAmount: '320',
-                              customerMobile: '9876543210',
-                              customerEmail: 'brian@gmail.com',
-                              street: 'NGO qrt',
-                              street2: 'Kakkanad',
-                              city: 'Kochi',
-                              state: 'Kerala',
-                              pinCode: '654321',
-                            )));
-              },
-              child: CustomerScreenCard(
-                size: size,
-                customerImage: 'assets/dummy/brian.jpg',
-                customerName: 'Nest Hypermarket',
-                customerID: '328739',
-                customerAddress: 'West Palazhi,Calicut',
-                dueAmount: '320',
-              ),
-            );
-          }),
+      body: Consumer<CustomerScreenController>(builder: (context, controller, _) {
+        return controller.isLoading
+            ? Center(child: CircularProgressIndicator())
+            : ListView.builder(
+                itemCount: controller.customerModel.data?.length, //TODO
+                itemBuilder: (context, index) {
+                  return InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CustomerDetailsScreen(
+                                    size: size,
+                                    customerImage: 'assets/dummy/brian.jpg',
+                                    customerName: 'Brian',
+                                    customerID: '328739',
+                                    dueAmount: '320',
+                                    customerMobile: '9876543210',
+                                    customerEmail: 'brian@gmail.com',
+                                    street: 'NGO qrt',
+                                    street2: 'Kakkanad',
+                                    city: 'Kochi',
+                                    state: 'Kerala',
+                                    pinCode: '654321',
+                                  )));
+                    },
+                    child: CustomerScreenCard(
+                      size: size,
+                      customerImage: controller.customerModel.data?[index].profilePic??"",
+                      customerName: controller.customerModel.data?[index].name??"",
+                      customerID: controller.customerModel.data?[index].id.toString()??"",
+                      customerAddress:
+                          '${controller.customerModel.data?[index].street??""}, ${controller.customerModel.data?[index].streetTwo??""}, \n${controller.customerModel.data?[index].state??""}',
+
+                    ),
+                  );
+                });
+      }),
     );
   }
 
