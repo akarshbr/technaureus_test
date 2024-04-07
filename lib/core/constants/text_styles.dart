@@ -29,7 +29,7 @@ class GlobalTextStyles {
 
   static const TextStyle customerScreenDetailsTS = TextStyle(
     fontWeight: FontWeight.bold,
-    fontSize: 22,
+    fontSize: 19,
     color: ColorTheme.onBGColor,
   );
 

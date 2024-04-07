@@ -1,25 +1,25 @@
 // To parse this JSON data, do
 //
-//     final productModel = productModelFromJson(jsonString);
+//     final customerModel = customerModelFromJson(jsonString);
 
 import 'dart:convert';
 
-ProductModel productModelFromJson(String str) => ProductModel.fromJson(json.decode(str));
+CustomerModel customerModelFromJson(String str) => CustomerModel.fromJson(json.decode(str));
 
-String productModelToJson(ProductModel data) => json.encode(data.toJson());
+String customerModelToJson(CustomerModel data) => json.encode(data.toJson());
 
-class ProductModel {
+class CustomerModel {
   int? errorCode;
   Data? data;
   String? message;
 
-  ProductModel({
+  CustomerModel({
     this.errorCode,
     this.data,
     this.message,
   });
 
-  factory ProductModel.fromJson(Map<String, dynamic> json) => ProductModel(
+  factory CustomerModel.fromJson(Map<String, dynamic> json) => CustomerModel(
     errorCode: json["error_code"],
     data: json["data"] == null ? null : Data.fromJson(json["data"]),
     message: json["message"],
@@ -35,8 +35,15 @@ class ProductModel {
 class Data {
   int? id;
   String? name;
-  String? image;
-  int? price;
+  String? profilePic;
+  String? mobileNumber;
+  String? email;
+  String? street;
+  String? streetTwo;
+  String? city;
+  int? pincode;
+  String? country;
+  String? state;
   DateTime? createdDate;
   String? createdTime;
   DateTime? modifiedDate;
@@ -46,8 +53,15 @@ class Data {
   Data({
     this.id,
     this.name,
-    this.image,
-    this.price,
+    this.profilePic,
+    this.mobileNumber,
+    this.email,
+    this.street,
+    this.streetTwo,
+    this.city,
+    this.pincode,
+    this.country,
+    this.state,
     this.createdDate,
     this.createdTime,
     this.modifiedDate,
@@ -58,8 +72,15 @@ class Data {
   factory Data.fromJson(Map<String, dynamic> json) => Data(
     id: json["id"],
     name: json["name"],
-    image: json["image"],
-    price: json["price"],
+    profilePic: json["profile_pic"],
+    mobileNumber: json["mobile_number"],
+    email: json["email"],
+    street: json["street"],
+    streetTwo: json["street_two"],
+    city: json["city"],
+    pincode: json["pincode"],
+    country: json["country"],
+    state: json["state"],
     createdDate: json["created_date"] == null ? null : DateTime.parse(json["created_date"]),
     createdTime: json["created_time"],
     modifiedDate: json["modified_date"] == null ? null : DateTime.parse(json["modified_date"]),
@@ -70,8 +91,15 @@ class Data {
   Map<String, dynamic> toJson() => {
     "id": id,
     "name": name,
-    "image": image,
-    "price": price,
+    "profile_pic": profilePic,
+    "mobile_number": mobileNumber,
+    "email": email,
+    "street": street,
+    "street_two": streetTwo,
+    "city": city,
+    "pincode": pincode,
+    "country": country,
+    "state": state,
     "created_date": "${createdDate!.year.toString().padLeft(4, '0')}-${createdDate!.month.toString().padLeft(2, '0')}-${createdDate!.day.toString().padLeft(2, '0')}",
     "created_time": createdTime,
     "modified_date": "${modifiedDate!.year.toString().padLeft(4, '0')}-${modifiedDate!.month.toString().padLeft(2, '0')}-${modifiedDate!.day.toString().padLeft(2, '0')}",

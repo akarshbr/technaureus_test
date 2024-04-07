@@ -3,8 +3,8 @@ import 'dart:io';
 
 import 'package:clean_code_demo/presentation/bottom_navigation_screen/controller/bottom_navigation_controller.dart';
 import 'package:clean_code_demo/presentation/customer_screen/controller/customer_screen_controller.dart';
-import 'package:clean_code_demo/presentation/customer_screen/view/widget/customer_details_screen.dart';
 import 'package:clean_code_demo/presentation/customer_screen/view/widget/customer_screen_card.dart';
+import 'package:clean_code_demo/widget/search_bar_customer.dart';
 import 'package:clean_code_demo/widget/select_image_button.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -12,7 +12,6 @@ import 'package:provider/provider.dart';
 
 import '../../../core/constants/colors.dart';
 import '../../../core/constants/text_styles.dart';
-import '../../../widget/search_bar.dart';
 
 class CustomerScreen extends StatefulWidget {
   const CustomerScreen({super.key});
@@ -22,6 +21,16 @@ class CustomerScreen extends StatefulWidget {
 }
 
 class _CustomerScreenState extends State<CustomerScreen> {
+  fetchData() {
+    Provider.of<CustomerScreenController>(context, listen: false).fetchCustomers(context);
+  }
+
+  @override
+  void initState() {
+    fetchData();
+    super.initState();
+  }
+
   var customerNameTEController = TextEditingController();
   var customerMobileTEController = TextEditingController();
   var customerEmailTEController = TextEditingController();
@@ -67,44 +76,33 @@ class _CustomerScreenState extends State<CustomerScreen> {
         ],
         bottom: PreferredSize(
             preferredSize: Size.fromHeight(50),
-            child: SearchBarWidget(
+            child: SearchBarCustomerWidget(
               size: size,
               type: 'Customers',
             )),
       ),
-      body: ListView.builder(
-          itemCount: 4, //TODO
-          itemBuilder: (context, index) {
-            return InkWell(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => CustomerDetailsScreen(
-                              size: size,
-                              customerImage: 'assets/dummy/brian.jpg',
-                              customerName: 'Brian',
-                              customerID: '328739',
-                              dueAmount: '320',
-                              customerMobile: '9876543210',
-                              customerEmail: 'brian@gmail.com',
-                              street: 'NGO qrt',
-                              street2: 'Kakkanad',
-                              city: 'Kochi',
-                              state: 'Kerala',
-                              pinCode: '654321',
-                            )));
-              },
-              child: CustomerScreenCard(
-                size: size,
-                customerImage: 'assets/dummy/brian.jpg',
-                customerName: 'Nest Hypermarket',
-                customerID: '328739',
-                customerAddress: 'West Palazhi,Calicut',
-                dueAmount: '320',
-              ),
-            );
-          }),
+      body: Consumer<CustomerScreenController>(builder: (context, controller, _) {
+        return controller.isLoading
+            ? Center(child: CircularProgressIndicator())
+            : ListView.builder(
+                itemCount: controller.customersModel.data?.length, //TODO
+                itemBuilder: (context, index) {
+                  return InkWell(
+                    onTap: () {
+                      Provider.of<CustomerScreenController>(context, listen: false)
+                          .fetchCustomer(context, controller.customersModel.data?[index].id, size);
+                    },
+                    child: CustomerScreenCard(
+                      size: size,
+                      customerImage: controller.customersModel.data?[index].profilePic ?? "",
+                      customerName: controller.customersModel.data?[index].name ?? "",
+                      customerID: controller.customersModel.data?[index].id.toString() ?? "",
+                      customerAddress:
+                          '${controller.customersModel.data?[index].street ?? ""}, ${controller.customersModel.data?[index].streetTwo ?? ""}, \n${controller.customersModel.data?[index].state ?? ""}',
+                    ),
+                  );
+                });
+      }),
     );
   }
 
@@ -261,6 +259,22 @@ class _CustomerScreenState extends State<CustomerScreen> {
                           log("customer pincode -> ${customerPinCodeTEController.text}");
                           log("country -> ${Provider.of<CustomerScreenController>(context, listen: false).countrySelected}");
                           log("state selected -> ${Provider.of<CustomerScreenController>(context, listen: false).stateSelected}");
+                          Provider.of<CustomerScreenController>(context, listen: false).onCreateCustomer(
+                              context,
+                              image,
+                              customerNameTEController.text.trim(),
+                              customerMobileTEController.text.trim(),
+                              customerEmailTEController.text.trim(),
+                              customerStreetTEController.text.trim(),
+                              customerStreetTwoTEController.text.trim(),
+                              customerCityTEController.text.trim(),
+                              customerPinCodeTEController.text.trim(),
+                              Provider.of<CustomerScreenController>(context, listen: false)
+                                  .countrySelected
+                                  .toString(),
+                              Provider.of<CustomerScreenController>(context, listen: false)
+                                  .stateSelected
+                                  .toString());
                         },
                         child: Text(
                           "Submit",

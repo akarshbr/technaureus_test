@@ -1,5 +1,8 @@
+import 'package:clean_code_demo/presentation/customer_screen/controller/customer_screen_controller.dart';
 import 'package:clean_code_demo/presentation/customer_screen/view/widget/customer_screen_card.dart';
+import 'package:clean_code_demo/repository/api/customer_screen/model/customers_model.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../core/constants/colors.dart';
 import '../../../../core/constants/text_styles.dart';
@@ -8,19 +11,13 @@ class CustomerSearchResultScreen extends StatefulWidget {
   const CustomerSearchResultScreen({
     super.key,
     required this.size,
-    required this.customerImage,
-    required this.customerName,
-    required this.customerID,
-    required this.customerAddress,
-    required this.dueAmount,
+    required this.searchText,
+    required this.customersModel,
   });
 
   final Size size;
-  final String customerImage;
-  final String customerName;
-  final String customerID;
-  final String customerAddress;
-  final String dueAmount;
+  final String searchText;
+  final CustomersModel customersModel;
 
   @override
   State<CustomerSearchResultScreen> createState() => _CustomerSearchResultScreenState();
@@ -45,19 +42,23 @@ class _CustomerSearchResultScreenState extends State<CustomerSearchResultScreen>
               fontWeight: FontWeight.bold, color: ColorTheme.onBGColor, size: 20),
         ),
       ),
-      body: ListView.builder(
-        itemCount: 2, //TODO
-        itemBuilder: (context, index) {
-          return CustomerScreenCard(
-            size: widget.size,
-            customerImage: widget.customerImage,
-            customerName: widget.customerName,
-            customerID: widget.customerID,
-            customerAddress: widget.customerAddress,
-            dueAmount: widget.dueAmount,
-          );
-        },
-      ),
+      body: Consumer<CustomerScreenController>(builder: (context, controller, _) {
+        return controller.isLoadingSearch
+            ? Center(child: CircularProgressIndicator())
+            : ListView.builder(
+                itemCount: widget.customersModel.data?.length, //TODO
+                itemBuilder: (context, index) {
+                  return CustomerScreenCard(
+                    size: widget.size,
+                    customerImage: widget.customersModel.data?[index].profilePic??"",
+                    customerName: widget.customersModel.data?[index].name,
+                    customerID: widget.customersModel.data?[index].id.toString(),
+                    customerAddress:
+                        "${widget.customersModel.data?[index].street}, ${widget.customersModel.data?[index].streetTwo}\n${widget.customersModel.data?[index].state}",
+                  );
+                },
+              );
+      }),
     );
   }
 }

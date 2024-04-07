@@ -4,35 +4,35 @@
 
 import 'dart:convert';
 
-ProductModel productModelFromJson(String str) => ProductModel.fromJson(json.decode(str));
+ProductsModel productModelFromJson(String str) => ProductsModel.fromJson(json.decode(str));
 
-String productModelToJson(ProductModel data) => json.encode(data.toJson());
+String productModelToJson(ProductsModel data) => json.encode(data.toJson());
 
-class ProductModel {
+class ProductsModel {
   int? errorCode;
-  Data? data;
+  List<Datum>? data;
   String? message;
 
-  ProductModel({
+  ProductsModel({
     this.errorCode,
     this.data,
     this.message,
   });
 
-  factory ProductModel.fromJson(Map<String, dynamic> json) => ProductModel(
+  factory ProductsModel.fromJson(Map<String, dynamic> json) => ProductsModel(
     errorCode: json["error_code"],
-    data: json["data"] == null ? null : Data.fromJson(json["data"]),
+    data: json["data"] == null ? [] : List<Datum>.from(json["data"]!.map((x) => Datum.fromJson(x))),
     message: json["message"],
   );
 
   Map<String, dynamic> toJson() => {
     "error_code": errorCode,
-    "data": data?.toJson(),
+    "data": data == null ? [] : List<dynamic>.from(data!.map((x) => x.toJson())),
     "message": message,
   };
 }
 
-class Data {
+class Datum {
   int? id;
   String? name;
   String? image;
@@ -43,7 +43,7 @@ class Data {
   String? modifiedTime;
   bool? flag;
 
-  Data({
+  Datum({
     this.id,
     this.name,
     this.image,
@@ -55,7 +55,7 @@ class Data {
     this.flag,
   });
 
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
+  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
     id: json["id"],
     name: json["name"],
     image: json["image"],
