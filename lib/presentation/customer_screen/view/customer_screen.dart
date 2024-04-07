@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:clean_code_demo/presentation/bottom_navigation_screen/controller/bottom_navigation_controller.dart';
 import 'package:clean_code_demo/presentation/customer_screen/controller/customer_screen_controller.dart';
-import 'package:clean_code_demo/presentation/customer_screen/view/widget/customer_details_screen.dart';
 import 'package:clean_code_demo/presentation/customer_screen/view/widget/customer_screen_card.dart';
 import 'package:clean_code_demo/widget/search_bar_customer.dart';
 import 'package:clean_code_demo/widget/select_image_button.dart';
@@ -90,16 +89,16 @@ class _CustomerScreenState extends State<CustomerScreen> {
                 itemBuilder: (context, index) {
                   return InkWell(
                     onTap: () {
-                      Provider.of<CustomerScreenController>(context,listen: false).fetchCustomer(context, controller.customersModel.data?[index].id, size);
+                      Provider.of<CustomerScreenController>(context, listen: false)
+                          .fetchCustomer(context, controller.customersModel.data?[index].id, size);
                     },
                     child: CustomerScreenCard(
                       size: size,
-                      customerImage: controller.customersModel.data?[index].profilePic??"",
-                      customerName: controller.customersModel.data?[index].name??"",
-                      customerID: controller.customersModel.data?[index].id.toString()??"",
+                      customerImage: controller.customersModel.data?[index].profilePic ?? "",
+                      customerName: controller.customersModel.data?[index].name ?? "",
+                      customerID: controller.customersModel.data?[index].id.toString() ?? "",
                       customerAddress:
-                          '${controller.customersModel.data?[index].street??""}, ${controller.customersModel.data?[index].streetTwo??""}, \n${controller.customersModel.data?[index].state??""}',
-
+                          '${controller.customersModel.data?[index].street ?? ""}, ${controller.customersModel.data?[index].streetTwo ?? ""}, \n${controller.customersModel.data?[index].state ?? ""}',
                     ),
                   );
                 });
@@ -260,6 +259,22 @@ class _CustomerScreenState extends State<CustomerScreen> {
                           log("customer pincode -> ${customerPinCodeTEController.text}");
                           log("country -> ${Provider.of<CustomerScreenController>(context, listen: false).countrySelected}");
                           log("state selected -> ${Provider.of<CustomerScreenController>(context, listen: false).stateSelected}");
+                          Provider.of<CustomerScreenController>(context, listen: false).onCreateCustomer(
+                              context,
+                              image,
+                              customerNameTEController.text.trim(),
+                              customerMobileTEController.text.trim(),
+                              customerEmailTEController.text.trim(),
+                              customerStreetTEController.text.trim(),
+                              customerStreetTwoTEController.text.trim(),
+                              customerCityTEController.text.trim(),
+                              customerPinCodeTEController.text.trim(),
+                              Provider.of<CustomerScreenController>(context, listen: false)
+                                  .countrySelected
+                                  .toString(),
+                              Provider.of<CustomerScreenController>(context, listen: false)
+                                  .stateSelected
+                                  .toString());
                         },
                         child: Text(
                           "Submit",
