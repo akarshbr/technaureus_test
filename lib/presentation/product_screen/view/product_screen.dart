@@ -36,7 +36,9 @@ class _ProductScreenState extends State<ProductScreen> {
         surfaceTintColor: ColorTheme.bgColor,
         leading: IconButton(
             onPressed: () {
-              Provider.of<BottomNavigationController>(context, listen: false).currentIndex = 0;
+              Provider
+                  .of<BottomNavigationController>(context, listen: false)
+                  .currentIndex = 0;
             },
             icon: Icon(Icons.arrow_back_ios)),
         centerTitle: true,
@@ -57,37 +59,29 @@ class _ProductScreenState extends State<ProductScreen> {
         return controller.isLoading
             ? Center(child: CircularProgressIndicator())
             : GridView.builder(
-                padding:
-                    EdgeInsets.only(top: size.height * .01, left: size.width * .03, right: size.width * .03),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                  childAspectRatio: 1.2 / 1,
+            padding:
+            EdgeInsets.only(top: size.height * .01, left: size.width * .03, right: size.width * .03),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 10,
+              childAspectRatio: 1.2 / 1,
+            ),
+            itemCount: controller.productsModel.data?.length,
+            itemBuilder: (context, index) {
+              return InkWell(
+                onTap: () {
+                  Provider.of<ProductController>(context, listen: false).fetchProduct(
+                      context, controller.productsModel.data?[index].id,size);
+                },
+                child: ProductScreenCard(
+                  image: controller.productsModel.data?[index].image,
+                  productName: controller.productsModel.data?[index].name,
+                  price: controller.productsModel.data![index].price?.toDouble(),
+                  size: size,
                 ),
-                itemCount: controller.productsModel.data?.length,
-                itemBuilder: (context, index) {
-                  return InkWell(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ProductDetailsScreen(
-                              productName: controller.productsModel.data![index].name,
-                              size: size,
-                              price: controller.productsModel.data![index].price!.toDouble(),
-                              productImage: controller.productsModel.data?[index].image,
-                            ),
-                          ));
-                    },
-                    child: ProductScreenCard(
-                      image: controller.productsModel.data?[index].image,
-                      productName: controller.productsModel.data?[index].name,
-                      price: controller.productsModel.data![index].price?.toDouble(),
-                      size: size,
-                    ),
-                  );
-                });
+              );
+            });
       }),
     );
   }

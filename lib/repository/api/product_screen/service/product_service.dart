@@ -12,6 +12,15 @@ class ProductService {
       log("$e");
     }
   }
+  static Future<dynamic> fetchProduct(int id) async {
+    log("ProductService -> searchProduct()");
+    try {
+      var decodedData = await ApiHelper.getData(endPoint: "products/?id=$id");
+      return decodedData;
+    } catch (e) {
+      log("$e");
+    }
+  }
 
   static Future<dynamic> searchProduct(String searchText) async {
     log("ProductService -> searchProduct()");
