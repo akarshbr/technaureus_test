@@ -81,28 +81,31 @@ class _CustomerScreenState extends State<CustomerScreen> {
               type: 'Customers',
             )),
       ),
-      body: Consumer<CustomerScreenController>(builder: (context, controller, _) {
-        return controller.isLoading
-            ? Center(child: CircularProgressIndicator())
-            : ListView.builder(
-                itemCount: controller.customersModel.data?.length, //TODO
-                itemBuilder: (context, index) {
-                  return InkWell(
-                    onTap: () {
-                      Provider.of<CustomerScreenController>(context, listen: false)
-                          .fetchCustomer(context, controller.customersModel.data?[index].id, size);
-                    },
-                    child: CustomerScreenCard(
-                      size: size,
-                      customerImage: controller.customersModel.data?[index].profilePic ?? "",
-                      customerName: controller.customersModel.data?[index].name ?? "",
-                      customerID: controller.customersModel.data?[index].id.toString() ?? "",
-                      customerAddress:
-                          '${controller.customersModel.data?[index].street ?? ""}, ${controller.customersModel.data?[index].streetTwo ?? ""}, \n${controller.customersModel.data?[index].state ?? ""}',
-                    ),
-                  );
-                });
-      }),
+      body: RefreshIndicator(
+        onRefresh: () => Provider.of<CustomerScreenController>(context, listen: false).fetchCustomers(context),
+        child: Consumer<CustomerScreenController>(builder: (context, controller, _) {
+          return controller.isLoading
+              ? Center(child: CircularProgressIndicator())
+              : ListView.builder(
+                  itemCount: controller.customersModel.data?.length, //TODO
+                  itemBuilder: (context, index) {
+                    return InkWell(
+                      onTap: () {
+                        Provider.of<CustomerScreenController>(context, listen: false)
+                            .fetchCustomer(context, controller.customersModel.data?[index].id, size);
+                      },
+                      child: CustomerScreenCard(
+                        size: size,
+                        customerImage: controller.customersModel.data?[index].profilePic ?? "",
+                        customerName: controller.customersModel.data?[index].name ?? "",
+                        customerID: controller.customersModel.data?[index].id.toString() ?? "",
+                        customerAddress:
+                            '${controller.customersModel.data?[index].street ?? ""}, ${controller.customersModel.data?[index].streetTwo ?? ""}, \n${controller.customersModel.data?[index].state ?? ""}',
+                      ),
+                    );
+                  });
+        }),
+      ),
     );
   }
 
@@ -189,19 +192,19 @@ class _CustomerScreenState extends State<CustomerScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             SizedBox(
-                                width: size.width * .45,
+                                width: size.width * .43,
                                 child: TextFormField(
                                   controller: customerStreetTEController,
                                   decoration: InputDecoration(hintText: "Street"),
                                 )),
                             SizedBox(
-                                width: size.width * .45,
+                                width: size.width * .43,
                                 child: TextFormField(
                                   controller: customerCityTEController,
                                   decoration: InputDecoration(hintText: "City"),
                                 )),
                             SizedBox(
-                              width: size.width * .45,
+                              width: size.width * .43,
                               child: Consumer<CustomerScreenController>(builder: (context, controller, _) {
                                 return DropdownButton<String>(
                                     isExpanded: true,
@@ -220,17 +223,17 @@ class _CustomerScreenState extends State<CustomerScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             SizedBox(
-                                width: size.width * .45,
+                                width: size.width * .43,
                                 child: TextFormField(
                                     controller: customerStreetTwoTEController,
                                     decoration: InputDecoration(hintText: "Street two"))),
                             SizedBox(
-                                width: size.width * .45,
+                                width: size.width * .43,
                                 child: TextFormField(
                                     controller: customerPinCodeTEController,
                                     decoration: InputDecoration(hintText: "Pincode"))),
                             SizedBox(
-                              width: size.width * .45,
+                              width: size.width * .43,
                               child: Consumer<CustomerScreenController>(builder: (context, controller, _) {
                                 return DropdownButton<String>(
                                     isExpanded: true,
