@@ -18,7 +18,7 @@ class ProductScreen extends StatefulWidget {
 
 class _ProductScreenState extends State<ProductScreen> {
   fetchData() {
-    Provider.of<ProductController>(context, listen: false).fetchProduct(context);
+    Provider.of<ProductController>(context, listen: false).fetchProducts(context);
   }
 
   @override
@@ -65,7 +65,7 @@ class _ProductScreenState extends State<ProductScreen> {
                   mainAxisSpacing: 10,
                   childAspectRatio: 1.2 / 1,
                 ),
-                itemCount: controller.productModel.data?.length,
+                itemCount: controller.productsModel.data?.length,
                 itemBuilder: (context, index) {
                   return InkWell(
                     onTap: () {
@@ -73,17 +73,17 @@ class _ProductScreenState extends State<ProductScreen> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => ProductDetailsScreen(
-                              productName: controller.productModel.data![index].name,
+                              productName: controller.productsModel.data![index].name,
                               size: size,
-                              price: controller.productModel.data![index].price!.toDouble(),
-                              productImage: controller.productModel.data?[index].image,
+                              price: controller.productsModel.data![index].price!.toDouble(),
+                              productImage: controller.productsModel.data?[index].image,
                             ),
                           ));
                     },
                     child: ProductScreenCard(
-                      image: controller.productModel.data?[index].image,
-                      productName: controller.productModel.data?[index].name,
-                      price: controller.productModel.data![index].price?.toDouble(),
+                      image: controller.productsModel.data?[index].image,
+                      productName: controller.productsModel.data?[index].name,
+                      price: controller.productsModel.data![index].price?.toDouble(),
                       size: size,
                     ),
                   );
